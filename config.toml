@@ -1,6 +1,7 @@
 baseURL = "https://example.com"
 languageCode = "en-us"
 themesDir = "themes"
+publishDir = "docs"
 defaultContentLanguage = "en"
 title = "Beresta Blog"
 theme = "hugo-dream-plus"
