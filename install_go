@@ -1,0 +1,22 @@
+sudo curl - 0 https://storage.googleapis.com/golang/go1.10.linux-amd64.tar.gz
+sudo tar -xvf go1.10.linux-amd64.tar.gz go/
+sudo mv go /usr/local/
+export GOPATH=~/go
+echo "export GOPATH=~/go" >> ~/.profile
+export PATH=$PATH:$GOPATH/bin
+echo "export PATH=$PATH:$GOPATH/bin" >> ~/.profile
+
+//mage install
+go get github.com/magefile/mage
+go get -u -d github.com/magefile/mage
+cd $GOPATH/src/github.com/magefile/mage
+go run bootstrap.go
+go get -d github.com/gohugoio/hugo
+cd ..
+cd ./gohugoio/hugo/
+mage vendor
+mage install
+//caddy
+go get github.com/caddyserver/builds
+$GOPATH/src/github.com/mholt/caddy/caddy
+go run build.go
