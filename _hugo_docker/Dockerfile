@@ -3,17 +3,13 @@ FROM ubuntu:16.04
 MAINTAINER Vladislav Nabilkov <cans1194fan@gmail.com>
 
 
-COPY ./build.sh /build.sh
+# COPY ./build.sh /build.sh
 ENV HUGO_VERSION=0.40
 ENV GO_VERSION=1.10
 
-# RUN ./sh ./build.sh
-RUN apk add --no-cache git gcc musl-dev
-RUN apk add --no-cache openssh-client git tar curl
-
-RUN apk add --update git \
-    && apk upgrade \
-    && apk add --no-cache ca-certificates
+#RUN ./sh ./build.sh
+RUN apt-get install git gcc musl-dev
+RUN apt-get openssh-client tar curl ca-certificates
 
 RUN cd $HOME \
     && STR="Install golang and Hugo" \
@@ -24,8 +20,13 @@ RUN cd $HOME \
     && export GOPATH=~/go \
     && echo "export GOPATH=~/go" >> ~/.profile \
     && export PATH=$PATH:$GOPATH/bin \
-    && echo "export PATH=$PATH:$GOPATH/bin" >> ~/.profile \
-    && mkdir -p /www/public
+    && echo "export PATH=$PATH:$GOPATH/bin" >> ~/.profile 
+
+RUN go get -v github.com/adnanh/webhook
+COPY hooks.json /etc/webhook/hooks.json
+
+COPY run.sh /run.sh
+    # && mkdir -p /www/public
 
 VOLUME /src
 VOLUME /output
